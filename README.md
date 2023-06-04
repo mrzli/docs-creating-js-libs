@@ -2,18 +2,30 @@
 
 ## Creating a New Project
 
+- Generate the new project using `jsgen`.
+  - See more information at [https://github.com/mrzli/js-project-generator-cli](https://github.com/mrzli/js-project-generator-cli).
+  - Make sure you have the proper configuration.
+    - Default configurations can be set at `~/.jsgen.config.json` and `./jsgen.config.json` (will be merged, with latter taking precedence).
+    - Any configuration set with `-c`.
+    - Any configuration options passed as other command line arguments.
+      - You will want to set `projectType`, `projectName` and possibly `output` (output directory).
+  - Execute `jsgen` to generate the project.
+    - Example: `jsgen -t node -p my-project -o _node-util`.
 - Create a new github repo at [https://github.com/new](https://github.com/new).
-  - Project name and simple description.
+  - Set project name and simple description.
   - Clone the newly generated repo.
     - Navigate to the root folder for your projects.
     - Execute: `git clone git@github.com:mrzli/<project-name>.git`.
-- [TODO: This will be changed after generator is more mature, and CLI is properly implemented.]
-  - Use [js-project-generator](https://github.com/mrzli/js-project-generator) to create a new project.
-    - Change project parameters inside `src/index.ts`. You will always want to change `projectName` and make sure you are using the proper `config`, and change it if necessary.
-    - Execute `npm run start:dev` to generate project files. Unless you change the `output` parameter, the project files will be generated in the `output` folder.
-    - Copy generated files from `output` folder to the root of your project.
+  - Add project to [repos](https://github.com/mrzli/repos) readme, and push `repos` changes to github.
 - Prepare your project for development.
   - Open your project in IDE. If using VSCode, you can use `code <relative-path-to-project-dir>` command.
+  - Setup git.
+    - Navigate to the root directory of your project.
+    - Execute `git init` to initialize git.
+    - Execute:
+      - `git remote add origin git@github.com:mrzli/<project-name>.git`.
+    - In case you already have a different `origin` set up, execute:
+      - `git remote set-url origin git@github.com:mrzli/<project-name>.git`.
   - Execute `npm install` to install all dependencies.
 - Make initial updates.
   - Update `description` in `package.json`.
