@@ -13,9 +13,6 @@
     - Example: `jsgen -t node -p my-project -o _node-util`.
 - Create a new github repo at [https://github.com/new](https://github.com/new).
   - Set project name and simple description.
-  - Clone the newly generated repo.
-    - Navigate to the root folder for your projects.
-    - Execute: `git clone git@github.com:mrzli/<project-name>.git`.
   - Add project to [repos](https://github.com/mrzli/repos) readme, and push `repos` changes to github.
 - Prepare your project for development.
   - Open your project in IDE. If using VSCode, you can use `code <relative-path-to-project-dir>` command.
