@@ -1,0 +1,23 @@
+- idea
+  - project explorer would be a tool for managing my projects
+  - it would allow an overview of my projects, and would allow me to run tooling on them
+- defining project set
+  - I could use a glob list of directories which would be searched for projects
+    - we should allow negative glob to exclude anything unwanted
+    - project would be identified by having a project.json or (fallback) a package.json file
+    - project.json should contain:
+      - the project type (shared library, node library, ...)
+      - labels
+        - possibly this could supersede the project type, and would have relevant project information
+      - possibly project version
+        - it could possibly be used in migration to new project structure
+        - new version would coincide with changes in project generator
+        - although it is difficult to say how this would be useful considering that the project can be easily modified outside of the version, and be out of sync with it
+  - projects could be searched by label etc
+- we should allow seeing the project structure
+  - maybe, depending on how easy this is to do
+- allow opening of project in vscode
+- later on allow project comparison
+  - maybe do this soon, and just use an existing app, and open it directly from project (if such app allow terminal activation with folder specification up front)
+- allow seing git statuses of all projects
+

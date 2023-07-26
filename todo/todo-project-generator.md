@@ -1,0 +1,21 @@
+- parameters
+  - project
+    - scope-name
+    - project-name
+    - author
+    - email
+    - author-url
+    - github-user-or-org
+  - project-type - app or lib
+  - platform
+    - for app:
+      - react (NYI)
+      - node (NYI)
+      - cli
+    - for lib:
+      - shared
+      - node
+      - browser
+      - react (NYI)
+  - command-name (for app cli)
+  - output
