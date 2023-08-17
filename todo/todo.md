@@ -1,39 +1,9 @@
-- structure ticker data
-  - 5000 entries is the cutoff for the data per file
-  - by default I have 1-minute, 15-min, 1-day data
-  - I need to expand to get 5-minute, 10-minute, 30-minute, 1-hour, 4-hour, 1-week, 1-month
-  - types
-    - 1-minute
-      - by day
-    - 5-minute
-      - by-day
-    - 10-minute
-      - by-month
-    - 15-minute
-      - by-month
-    - 30-minute
-      - by month
-    - 1-hour
-      - by year
-    - 4-hour
-      - by year
-    - 1-day
-      - by year
-    - 1-week
-      - by decade
-    - 1-month
-      - by decade
-- functionality
-  - have data downloader
-  - have function to get list of files
-    - input directory, the search all csv files that are direct ancestors
-  - have function to join data
-    - simply concatenates lists of rows in each file in the subfolder
-  - have function to split data
-    - accept data list
-    - returns a list of lists
-  - have function to merge data list with existing data
-    - need to take just the last file in existing data
-    - merge it with new data list (which will have 1 or more files)
-  - have a function to convert smaller interval data to larger interval
-  - have a repository that stores the data
+- make publish work
+  - update test
+    - make tests use babel-jest instead of ts-jest
+    - try it out in 'path' project
+    - next, update jest-config project
+    - next update project generator to use babel-jest
+      - you will at least have to change dependencies, maybe the rest will remain the same if hidden inside jest-config project
+      - you will need babel config, see path project
+  - update project generator to use new publish

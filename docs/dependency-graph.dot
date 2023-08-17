@@ -1,0 +1,86 @@
+digraph G {
+  fontname="sans-serif"
+  node [fontname="sans-serif",shape=box,height=0.1]
+	edge [fontname="sans-serif"]
+
+  subgraph cluster_tools {
+    // label="tools"
+    "@gmjs/npm-publish-cli";
+  }
+
+  subgraph cluster_node_util {
+    // label="node-util";
+    "@gmjs/crypto";
+    "@gmjs/exec-observable";
+    "@gmjs/fs-async";
+    "@gmjs/fs-observable";
+    "@gmjs/fs-shared";
+    "@gmjs/fs-sync";
+    "@gmjs/package-json";
+    "@gmjs/path";
+  }
+
+  subgraph cluster_shared_util {
+    // label="shared-util";
+    "@gmjs/apply-function";
+    "@gmjs/compose-function";
+    "@gmjs/nullish-checks";
+    "@gmjs/array-create";
+    "@gmjs/data-container-util";
+    "@gmjs/number-util";
+    "@gmjs/array-sort";
+    "@gmjs/date-util";
+    "@gmjs/type-checks";
+    "@gmjs/array-transformers";
+    "@gmjs/generic-functions";
+    "@gmjs/value-generators";
+    "@gmjs/assert";
+    "@gmjs/generic-types";
+    "@gmjs/value-transformers";
+  }
+
+  subgraph cluster_test_util {
+    // label="test-util";
+    "@gmjs/test-util";
+  }
+
+  subgraph cluster_development_util {
+    // label="development-util";
+    "@gmjs/tsconfig";
+    "@gmjs/prettier-config";
+    "@gmjs/eslint-config";
+    "@gmjs/jest-config";
+  }
+
+  // tools
+  "@gmjs/npm-publish-cli" -> "@gmjs/exec-observable";
+  "@gmjs/npm-publish-cli" -> "@gmjs/package-json";
+
+  // node-util
+  "@gmjs/exec-observable" -> "@gmjs/fs-shared";
+  "@gmjs/fs-async" -> "@gmjs/fs-shared";
+  "@gmjs/fs-observable" -> "@gmjs/fs-shared";
+  "@gmjs/fs-sync" -> "@gmjs/fs-shared";
+  "@gmjs/package-json" -> "@gmjs/fs-async";
+  "@gmjs/package-json" -> "@gmjs/fs-sync";
+  "@gmjs/value-generators" -> "@gmjs/generic-types";
+  "@gmjs/value-transformers" -> "@gmjs/compose-function";
+  "@gmjs/value-transformers" -> "@gmjs/generic-types";
+
+  // shared-util
+  "@gmjs/apply-function" -> "@gmjs/generic-types";
+  "@gmjs/compose-function" -> "@gmjs/generic-functions";
+  "@gmjs/compose-function" -> "@gmjs/generic-types";
+
+  // test-util
+  "@gmjs/test-util" -> "@gmjs/crypto";
+  "@gmjs/test-util" -> "@gmjs/fs-async";
+  "@gmjs/test-util" -> "@gmjs/fs-shared";
+  "@gmjs/test-util" -> "@gmjs/fs-sync";
+
+  // development-util
+  "@gmjs/eslint-config" -> "@gmjs/tsconfig";
+  "@gmjs/eslint-config" -> "@gmjs/prettier-config";
+  "@gmjs/jest-config" -> "@gmjs/tsconfig";
+  "@gmjs/jest-config" -> "@gmjs/prettier-config";
+}
