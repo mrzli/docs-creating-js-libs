@@ -1,21 +1,20 @@
-- parameters
-  - project
-    - scope-name
-    - project-name
-    - author
-    - email
-    - author-url
-    - github-user-or-org
-  - project-type - app or lib
-  - platform
-    - for app:
-      - react (NYI)
-      - node (NYI)
-      - cli
-    - for lib:
-      - shared
-      - node
-      - browser
-      - react (NYI)
-  - command-name (for app cli)
-  - output
+
+
+
+
+
+
+
+
+
+
+
+
+
+AFTER:
+
+- update cli project generator
+  - publish new version of project generator lib
+  - update cli project generator to use new version of project generator lib
+    - make sure to use types from the lib project, as possible, and remove duplicates from the cli project
+  - publish new version of the cli project generator

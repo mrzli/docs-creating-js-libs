@@ -1,9 +1,1 @@
-- make publish work
-  - update test
-    - make tests use babel-jest instead of ts-jest
-    - try it out in 'path' project
-    - next, update jest-config project
-    - next update project generator to use babel-jest
-      - you will at least have to change dependencies, maybe the rest will remain the same if hidden inside jest-config project
-      - you will need babel config, see path project
-  - update project generator to use new publish
+- implement td365 trading data
