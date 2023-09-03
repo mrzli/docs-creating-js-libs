@@ -1,5 +1,27 @@
+- add a lib project
+  - duplicate functionality from the existing td365 data download, as implemented in gm-trading project, under sites
+  - have all parameters passed in as input values, including the login credentials for td365, but make sure you don't put them in the repo
+- add a second subcommand for splitting data into raw format
+  - maybe later this should be done automatically on download
+  - just split enough so that it makes sense for the git
+    - day data all in one file
+    - 15-minute data one file per year
+    - 1-minute data one file per month
+    - split by utc time
+- add a repo for td365 raw data
+  - call it td365-data-raw
+  - it should only have a:
+    - README.md, short one
+    - .gitignore
+    - data folder
+      - this is where the data will be stored
+- add a new td365 command for copying data to the raw repo
+- add a new td365 command for pushing raw data to the raw repo
+
+
+
 - structure ticker data
-  - 5000 entries is the cutoff for the data per file
+  - 5000 entries is the cutoff for the data per file, roughly speaking
   - by default I have 1-minute, 15-min, 1-day data
   - I need to expand to get 5-minute, 10-minute, 30-minute, 1-hour, 4-hour, 1-week, 1-month
   - types
