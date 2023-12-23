@@ -1,37 +1,220 @@
-- trade strategy
-  - initial capital
-  - spread
-  - avg-slippage
+- create stub components
+  - trading
+    - TradeOrderList
+    - TradeOrderItem
+      - id
+      - time
+      - price (undefined for market order, but these get automatically filled)
+      - stopLoss
+      - limit
+      - amount
+      - direction (Buy/Sell)
+    - ActiveTradeList
+    - ActiveTradeItem
+      - id
+      - open time
+      - close time
+      - open price
+      - close price
+      - amount
+      - Buy/Sell
+      - pnl points
+      - pnl
+  - log
+    - TradeLogList
+    - TradeLogItem
+      - each one will have
+        - id
+        - time (displayed as yyyy-MM-dd HH:mm in selected time zone)
+      - manual-order
+        - price
+        - stopLoss
+        - limit
+        - amount
+        - direction (Buy/Sell)
+      - cancel-order
+        - orderId
+      - close-trade
+        - tradeId
+        - open time
+        - close time
+        - open price (from trade)
+        - close price
+        - amount
+        - Buy/Sell
+        - pnl points (calculate by using open and close price)
+        - pnl (calculate by using open and close price, and amount)
+      - adjust-order
+        - orderId
+        - old price, stopLoss, limit, amount
+        - new price, stopLoss, limit, amount
+      - adjust-trade
+        - tradeId
+        - old stopLoss, limit (price, not offset)
+        - new stopLoss, limit (price, not offset)
+      - order-fill
+        - orderId
+        - price
+        - stopLoss (price, not offset)
+        - limit (price, not offset)
+        - amount
+        - direction (Buy/Sell)
+      - stop-loss
+        - tradeId
+        - open time
+        - close time
+        - open price (from trade)
+        - close price
+        - stopLossPrice (price, not offset)
+        - amount
+        - Buy/Sell
+        - pnl points (calculate by using open and close price)
+        - pnl (calculate by using open and close price, and amount)
+      - limit
+        - tradeId
+        - open time
+        - close time
+        - open price (from trade)
+        - close price
+        - limitPrice (price, not offset)
+        - amount
+        - Buy/Sell
+        - pnl points (calculate by using open and close price)
+        - pnl (calculate by using open and close price, and amount)
+  - results
+    - ResultDisplay -> TradingResultDisplay
+      - put it on top of results
+      - values
+        - pnl
+        - pnl points
+        - total trades count
+        - winning trades count
+        - losing trades count
+        - winning percentage
+        - losing percentage
+        - avg win
+        - avg loss
+        - max drawdown
+    - CompletedTradeList
+    - CompletedTradeItem
+      - tradeId
+      - open time
+      - close time
+      - open price (from trade)
+      - close price
+      - amount
+      - Buy/Sell
+      - close reason (manual, stop-loss, limit)
+      - pnl points
+      - pnl
 
-- types of trade actions
-  - order
-  - cancel
-  - open
-    - manual
-    - order
-  - close
-    - manual
-    - limit
-    - stop-loss
-  - adjust
-    - limit
-    - stop-loss
 
 
-- data
-  - list of actions (log)
-  - list of completed trades
-  - list of open trades
 
 
-- result
-  - pnl
-  - pnl points
-  - total trades count
-  - winning trades count
-  - losing trades count
-  - winning percentage
-  - losing percentage
-  - avg win
-  - avg loss
-  - max drawdown
+- algorithm
+  - record all manual actions
+    - make market order
+    - make limit order
+    - cancel limit order
+    - close trade
+    - adjust order
+    - adjust trade
+  - on any change, re-run the whole trade sequence up to a bar specified in the toolbar (just main bar)
+    - if you need to go back, just enter a different bar in the main toolbar
+    - all manual action should remain in the list, even if they are not yet executed for that bar
+      - have a flag which says whether the manual action is executed for a given replay bar
+      - by default, while trading, all manual actions will be immediately executed, but moving the replay bar into the past can render some manual actions not-currently executed (in the future related to the current replay bar)
+  - how does algorithm work?
+    - for each bar (until the current replay bar)
+      - go through a list of manual actions
+        - if action is unprocessed, and time is <= current bar time, execute the actions
+      - go through a list of orders
+        - check if price level is triggered, and trade needs to be opened
+      - go through a list of open trades
+        - this includes the trades opened from orders on current bar
+        - check limit and stop loss, and if any is triggered, close the trade
+  - how is each action handled?
+    - new market order is handled on the next bar, at the price of the close of the current bar
+      - time is taken from the next bar, by looking 1 bar into the future
+    - time is taken the same way for all other manual actions
+    - all actions (limit order, close trade, adjust order/trade) use the current bar's closing price
+    - for any open or adjust, make sure stop-loss and limit are valid
+    - make market order
+      - add an open trade to the list of trades
+    - make limit order
+      - add an order to the list of orders
+    - cancel limit order
+      - remove an order from the lis tof orders
+    - close trade
+      - remove an open trade from the list of trades
+      - save close price (at the close of current bar)
+      - calculate pnl etc
+    - adjust order
+      - change amount, entry price, limit, stop-loss
+    - adjust trade
+      - change limit, stop-loss
+  
+
+- action log
+  - make market order (manual)
+  - make limit order (manual)
+  - cancel limit order (manual)
+  - close trade (manual)
+  - adjust order (manual)
+  - adjust trade (manual)
+  - limit order triggered -> trade opened (automatic)
+  - limit or stop-loss triggered in trade -> trade closed (automatic)
+
+
+
+
+
+
+
+
+
+- example flow
+  - open trade
+    - trade shows in list of orders, or directly in trades if it is a market order
+    - once the trade is filled, it shows in the list of trades, if it is a limit order
+  -  cancel order
+    - order is cancelled, and removed from the list of orders, not visible any more
+  - close trade
+    - trade is closed, and removed from the list of trades, not visible any more
+    - trade is added to the list of completed trades
+    - result is adjusted
+
+
+- controls
+  - implement tab control
+    - Sequence
+      - TradeSequenceInputs
+    - Trading
+      - ability to make order
+      - list of open orders and trades
+    - Result
+      - list of completed trades
+      - result display
+  - order entry
+    - buy/sell toggle button, at first, both are disabled
+  - order item
+    - created time (ts first, later timezoned date)
+    - type (buy, sell)
+    - price
+    - amount
+  - open trade item
+    - open/close time (ts first, later timezoned date)
+    - type (buy, sell)
+    - open price
+    - amount
+  - completed trade item
+    - open/close time
+    - type (buy, sell)
+    - open price
+    - close price
+    - amount
+    - pnl points
+    - pnl
+  - result
+    - see below
