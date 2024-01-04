@@ -1,25 +1,51 @@
+- for input parameters
+  - have a readonly display, only display a larger form when 'Edit' is clicked (pencil icon, see order or trade item)
+
+- implement forms
+  - using react-hook-form
+  - use zod for validation
+  - implement first for trading parameters
+    - all inputs are required
+    - inputs
+      - initial balance
+        - number between 100 and 1,000,000
+      - price decimals
+        - integer between 0 and 8
+      - spread
+        - number between 0 and 10000
+      - margin
+        - number between 0 and 100
+      - average slippage
+        - number between 0 and 10000
+      - pip digit
+        - integer between -8 and 8
+      - min stop loss
+        - number between 0 and 10000
+    - have placeholders for the above inputs describing the requirements
+    - disable 'Apply' button if any input is invalid
+    
+
+
+- save trade state
+  - instrument, resolution, timezone
+  - trade inputs
+    - parameters
+    - manual trade actions
+  - replay bar index
+  - replay navigation timezone
+- ui
+  - have input name, then save, then 'Open'
+  - 'Open' should toogle a 'open display' below the button
+    - it should be a list of saved trade states
+    - each item should have a 'Load' and 'Delete' buttons, maybe as a checkmark and a cross
+
+
+
+- display logs
+
+
+
 - create stub components
-  - trading
-    - TradeOrderList
-    - TradeOrderItem
-      - id
-      - time
-      - price (undefined for market order, but these get automatically filled)
-      - stopLoss
-      - limit
-      - amount
-      - direction (Buy/Sell)
-    - ActiveTradeList
-    - ActiveTradeItem
-      - id
-      - open time
-      - close time
-      - open price
-      - close price
-      - amount
-      - Buy/Sell
-      - pnl points
-      - pnl
   - log
     - TradeLogList
     - TradeLogItem
@@ -81,79 +107,7 @@
         - Buy/Sell
         - pnl points (calculate by using open and close price)
         - pnl (calculate by using open and close price, and amount)
-  - results
-    - ResultDisplay -> TradingResultDisplay
-      - put it on top of results
-      - values
-        - pnl
-        - pnl points
-        - total trades count
-        - winning trades count
-        - losing trades count
-        - winning percentage
-        - losing percentage
-        - avg win
-        - avg loss
-        - max drawdown
-    - CompletedTradeList
-    - CompletedTradeItem
-      - tradeId
-      - open time
-      - close time
-      - open price (from trade)
-      - close price
-      - amount
-      - Buy/Sell
-      - close reason (manual, stop-loss, limit)
-      - pnl points
-      - pnl
 
-
-
-
-
-- algorithm
-  - record all manual actions
-    - make market order
-    - make limit order
-    - cancel limit order
-    - close trade
-    - adjust order
-    - adjust trade
-  - on any change, re-run the whole trade sequence up to a bar specified in the toolbar (just main bar)
-    - if you need to go back, just enter a different bar in the main toolbar
-    - all manual action should remain in the list, even if they are not yet executed for that bar
-      - have a flag which says whether the manual action is executed for a given replay bar
-      - by default, while trading, all manual actions will be immediately executed, but moving the replay bar into the past can render some manual actions not-currently executed (in the future related to the current replay bar)
-  - how does algorithm work?
-    - for each bar (until the current replay bar)
-      - go through a list of manual actions
-        - if action is unprocessed, and time is <= current bar time, execute the actions
-      - go through a list of orders
-        - check if price level is triggered, and trade needs to be opened
-      - go through a list of open trades
-        - this includes the trades opened from orders on current bar
-        - check limit and stop loss, and if any is triggered, close the trade
-  - how is each action handled?
-    - new market order is handled on the next bar, at the price of the close of the current bar
-      - time is taken from the next bar, by looking 1 bar into the future
-    - time is taken the same way for all other manual actions
-    - all actions (limit order, close trade, adjust order/trade) use the current bar's closing price
-    - for any open or adjust, make sure stop-loss and limit are valid
-    - make market order
-      - add an open trade to the list of trades
-    - make limit order
-      - add an order to the list of orders
-    - cancel limit order
-      - remove an order from the lis tof orders
-    - close trade
-      - remove an open trade from the list of trades
-      - save close price (at the close of current bar)
-      - calculate pnl etc
-    - adjust order
-      - change amount, entry price, limit, stop-loss
-    - adjust trade
-      - change limit, stop-loss
   
 
 - action log
