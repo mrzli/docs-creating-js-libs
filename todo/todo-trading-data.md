@@ -1,30 +1,30 @@
-- for input parameters
-  - have a readonly display, only display a larger form when 'Edit' is clicked (pencil icon, see order or trade item)
+- strategy parameters
+  - breakout start time
+    - breakout start time relative to
+  - breakout time range
+  - breakout price padding
+  - percent SL
+  - max SL points
+  - close trade time
+    - close trade time relative to
 
-- implement forms
-  - using react-hook-form
-  - use zod for validation
-  - implement first for trading parameters
-    - all inputs are required
-    - inputs
-      - initial balance
-        - number between 100 and 1,000,000
-      - price decimals
-        - integer between 0 and 8
-      - spread
-        - number between 0 and 10000
-      - margin
-        - number between 0 and 100
-      - average slippage
-        - number between 0 and 10000
-      - pip digit
-        - integer between -8 and 8
-      - min stop loss
-        - number between 0 and 10000
-    - have placeholders for the above inputs describing the requirements
-    - disable 'Apply' button if any input is invalid
-    
+---
 
+- trade on chart
+
+  - initially, we are in the order state 'none'
+    - when mouse is close to y-axis, show chevron up and down buttons, for buy and sell
+    - if position is MARKET_PRICE_Y_EPSILON pixels away from y-axis, then it is a market order, and the price is empty
+    - otherwise it is a limit order, and the price is the y-axis value
+    - this transition to 'adjust-order' state
+  - in 'adjust-order' state
+    - price line (next to y-axis) will display:
+      - input for price (to adjust if necessary)
+      - input for amount, pre-filled with the last amount
+      - button for
+    - stop loss line (next to y-axis) will display:
+      - input for stop loss (to adjust if necessary)
+      - x button to remove stop loss
 
 - save trade state
   - instrument, resolution, timezone
@@ -34,16 +34,13 @@
   - replay bar index
   - replay navigation timezone
 - ui
+
   - have input name, then save, then 'Open'
   - 'Open' should toogle a 'open display' below the button
     - it should be a list of saved trade states
     - each item should have a 'Load' and 'Delete' buttons, maybe as a checkmark and a cross
 
-
-
 - display logs
-
-
 
 - create stub components
   - log
@@ -107,68 +104,3 @@
         - Buy/Sell
         - pnl points (calculate by using open and close price)
         - pnl (calculate by using open and close price, and amount)
-
-  
-
-- action log
-  - make market order (manual)
-  - make limit order (manual)
-  - cancel limit order (manual)
-  - close trade (manual)
-  - adjust order (manual)
-  - adjust trade (manual)
-  - limit order triggered -> trade opened (automatic)
-  - limit or stop-loss triggered in trade -> trade closed (automatic)
-
-
-
-
-
-
-
-
-
-- example flow
-  - open trade
-    - trade shows in list of orders, or directly in trades if it is a market order
-    - once the trade is filled, it shows in the list of trades, if it is a limit order
-  -  cancel order
-    - order is cancelled, and removed from the list of orders, not visible any more
-  - close trade
-    - trade is closed, and removed from the list of trades, not visible any more
-    - trade is added to the list of completed trades
-    - result is adjusted
-
-
-- controls
-  - implement tab control
-    - Sequence
-      - TradeSequenceInputs
-    - Trading
-      - ability to make order
-      - list of open orders and trades
-    - Result
-      - list of completed trades
-      - result display
-  - order entry
-    - buy/sell toggle button, at first, both are disabled
-  - order item
-    - created time (ts first, later timezoned date)
-    - type (buy, sell)
-    - price
-    - amount
-  - open trade item
-    - open/close time (ts first, later timezoned date)
-    - type (buy, sell)
-    - open price
-    - amount
-  - completed trade item
-    - open/close time
-    - type (buy, sell)
-    - open price
-    - close price
-    - amount
-    - pnl points
-    - pnl
-  - result
-    - see below
