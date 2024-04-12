@@ -1,0 +1,2 @@
+- I want to be able to see the chart
+  - canvas chart options
